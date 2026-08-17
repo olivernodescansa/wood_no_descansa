@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expediente — Oliver Wood</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Caveat:wght@500;700&family=Homemade+Apple&family=Special+Elite&family=Cutive+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --parchment:#ece1c8;
+  --parchment-dark:#e1d3b2;
+  --ink:#241a12;
+  --ink-soft:#4a3c2c;
+  --bordo:#5c1c22;
+  --bordo-deep:#3c1216;
+  --gold:#a9822f;
+  --gold-light:#c9a659;
+  --mungo:#4f6353;
+  --mungo-pale:#eef1e7;
+  --mungo-line:#c3cdb9;
+  --ministry:#3a4252;
+  --ministry-pale:#e7e9ee;
+  --stamp-red:#8b2c2c;
+  --trophy:#7a5a22;
+  --trophy-dark:#20140c;
+  --paper-shadow: 0 10px 30px rgba(20,12,6,0.35), 0 2px 6px rgba(20,12,6,0.25);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:
+    radial-gradient(ellipse at top, #2a1c14 0%, #140d09 60%),
+    #140d09;
+  color:var(--ink);
+  font-family:'Cormorant Garamond', serif;
+  min-height:100vh;
+  padding:28px 14px 80px;
+}
+.wrap{max-width:980px;margin:0 auto;}
+
+/* ---------- CABECERA ---------- */
+.masthead{
+  text-align:center;
+  color:var(--parchment);
+  margin-bottom:28px;
+}
+.masthead .eyebrow{
+  font-family:'Special Elite', monospace;
+  font-size:11px;
+  letter-spacing:0.35em;
+  color:var(--gold-light);
+  text-transform:uppercase;
+}
+.masthead h1{
+  font-size:clamp(34px,6vw,54px);
+  font-weight:600;
+  margin:6px 0 4px;
+  letter-spacing:0.02em;
+}
+.masthead .sub{
+  font-family:'Caveat', cursive;
+  font-size:22px;
+  color:#c9bda2;
+}
+
+/* ---------- TABS ESTILO CARPETA ---------- */
+.tabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  justify-content:center;
+  margin-bottom:0;
+  position:relative;
+  z-index:2;
+}
+.tab-btn{
+  font-family:'Special Elite', monospace;
+  font-size:12px;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  border:1px solid rgba(0,0,0,0.25);
+  border-bottom:none;
+  padding:12px 16px 10px;
+  border-radius:8px 8px 0 0;
+  cursor:pointer;
+  color:var(--parchment);
+  background:#3a2c20;
+  opacity:0.65;
+  transform:translateY(8px);
+  transition:all .25s ease;
+}
+.tab-btn:hover{opacity:0.9; transform:translateY(4px);}
+.tab-btn.active{
+  opacity:1;
+  transform:translateY(0);
+  box-shadow:0 -4px 14px rgba(0,0,0,0.25);
+}
+.tab-btn[data-tab="cuarto"]{background:linear-gradient(180deg,#7a2129,var(--bordo));}
+.tab-btn[data-tab="mungo"]{background:linear-gradient(180deg,#5d7361,var(--mungo));}
+.tab-btn[data-tab="hogwarts"]{background:linear-gradient(180deg,#8a6a1f,#5f4718);}
+.tab-btn[data-tab="trofeos"]{background:linear-gradient(180deg,#8a6a2c,var(--trophy-dark));}
+.tab-btn[data-tab="ministerio"]{background:linear-gradient(180deg,#4c5568,var(--ministry));}
+.tab-btn[data-tab="bitacoras"]{background:linear-gradient(180deg,#5a4638,#241811);}
+
+/* ---------- PANEL ---------- */
+.panel{
+  background:var(--parchment);
+  border-radius:2px 12px 12px 12px;
+  box-shadow:var(--paper-shadow);
+  padding:40px clamp(20px,5vw,56px) 56px;
+  position:relative;
+  overflow:hidden;
+}
+.panel::before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    repeating-linear-gradient(0deg, rgba(90,60,20,0.025) 0px, rgba(90,60,20,0.025) 1px, transparent 1px, transparent 3px);
+  pointer-events:none;
+}
+.section{display:none;}
+.section.active{display:block; animation:fadeIn .4s ease;}
+@keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+.doc-head{
+  display:flex; justify-content:space-between; align-items:flex-start; gap:20px;
+  border-bottom:2px solid var(--ink-soft);
+  padding-bottom:14px; margin-bottom:24px; flex-wrap:wrap;
+}
+.doc-head h2{
+  font-size:clamp(26px,4vw,36px);
+  margin:0; font-weight:600; color:var(--bordo-deep);
+}
+.doc-head .meta{
+  font-family:'Special Elite', monospace;
+  font-size:11px; letter-spacing:0.05em; color:var(--ink-soft);
+  text-align:right; line-height:1.7;
+}
+.stamp{
+  display:inline-block;
+  border:2px solid var(--stamp-red);
+  color:var(--stamp-red);
+  font-family:'Special Elite', monospace;
+  font-size:11px; letter-spacing:0.12em;
+  padding:4px 10px; border-radius:4px;
+  transform:rotate(-3deg);
+  opacity:0.85;
+}
+
+h3.block-title{
+  font-size:22px; color:var(--bordo);
+  border-left:4px solid var(--gold);
+  padding-left:12px; margin:34px 0 14px;
+  font-weight:600;
+}
+p{line-height:1.65; font-size:16.5px; color:var(--ink);}
+.note{
+  font-family:'Caveat', cursive;
+  font-size:19px;
+  color:var(--bordo-deep);
+}
+.handwriting{font-family:'Homemade Apple', cursive; font-size:15px; line-height:1.9; color:#2b1f14;}
+
+table{width:100%; border-collapse:collapse; margin:14px 0 6px; font-size:15px;}
+th,td{border:1px solid #b9a97c; padding:8px 10px; text-align:left; vertical-align:top;}
+th{background:rgba(92,28,34,0.08); font-family:'Special Elite', monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; color:var(--bordo-deep);}
+tr:nth-child(even) td{background:rgba(169,130,47,0.06);}
+
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:28px;}
+@media (max-width:700px){.grid-2{grid-template-columns:1fr;}}
+
+.card{
+  background:rgba(255,255,255,0.35);
+  border:1px solid rgba(92,28,34,0.2);
+  border-radius:6px;
+  padding:16px 18px;
+  margin:14px 0;
+}
+.tag{
+  display:inline-block; font-family:'Special Elite',monospace; font-size:10px;
+  letter-spacing:0.05em; text-transform:uppercase;
+  padding:2px 8px; border-radius:20px; margin-right:6px;
+  background:var(--ink); color:var(--parchment);
+}
+.tag.gold{background:var(--gold); color:#1a1206;}
+.tag.warn{background:var(--stamp-red); color:#fff;}
+
+/* redacción */
+.redact{
+  background:#1a1410; color:#1a1410; border-radius:2px; padding:0 4px;
+  user-select:none; cursor:help;
+}
+.redact:hover{background:#3a2c20;}
+
+/* status dots (legajo ministerio) */
+.status{display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:6px;}
+.status.ok{background:#4f6353;}
+.status.review{background:#c9a659;}
+.status.missing{background:var(--stamp-red);}
+
+hr.tear{
+  border:none; height:1px; margin:26px 0;
+  background:repeating-linear-gradient(90deg, #b9a97c 0 6px, transparent 6px 10px);
+}
+
+/* ---------- SECCIÓN SAN MUNGO ---------- */
+#mungo .doc-head{border-bottom-color:var(--mungo);}
+#mungo .doc-head h2{color:var(--mungo);}
+#mungo h3.block-title{color:var(--mungo); border-left-color:#8fae82;}
+#mungo th{background:rgba(79,99,83,0.12); color:var(--mungo);}
+#mungo .clinical{
+  background:var(--mungo-pale); border:1px solid var(--mungo-line);
+  border-radius:6px; padding:18px 20px; margin:16px 0;
+  font-family:'Cutive Mono', monospace; font-size:13.5px; line-height:1.75; color:#2c3a2f;
+}
+#mungo .clinical .case-label{
+  font-family:'Special Elite', monospace; font-size:11px; letter-spacing:0.06em;
+  color:var(--mungo); text-transform:uppercase; margin-bottom:8px; display:block;
+}
+
+/* ---------- SECCIÓN MINISTERIO ---------- */
+#ministerio .doc-head{border-bottom-color:var(--ministry);}
+#ministerio .doc-head h2{color:var(--ministry);}
+#ministerio h3.block-title{color:var(--ministry); border-left-color:#8f9bb3;}
+#ministerio th{background:rgba(58,66,82,0.1); color:var(--ministry);}
+.folio{
+  border:1px solid #b7bccb; background:var(--ministry-pale);
+  border-radius:6px; padding:18px 20px; margin:16px 0; position:relative;
+}
+.folio .nota-tecnica{
+  margin-top:12px; padding:12px 14px;
+  background:#20242e; color:#e4e6ec;
+  border-left:4px solid var(--stamp-red);
+  font-family:'Cutive Mono', monospace; font-size:13px; line-height:1.7;
+  border-radius:2px;
+}
+.folio .nota-tecnica .label{color:var(--stamp-red); font-family:'Special Elite',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; display:block; margin-bottom:6px;}
+.folio.missing{border-style:dashed; border-color:var(--stamp-red); background:repeating-linear-gradient(135deg, var(--ministry-pale) 0 10px, #f4dede 10px 20px);}
+
+/* ---------- SECCIÓN TROFEOS ---------- */
+#trofeos .doc-head{border-bottom-color:var(--trophy);}
+#trofeos .doc-head h2{color:var(--trophy-dark);}
+#trofeos h3.block-title{color:var(--trophy); border-left-color:var(--gold);}
+.trophy-shelf{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:18px; margin-top:10px;}
+.trophy-card{
+  background:linear-gradient(180deg,#f3e8cc,#e6d4a6);
+  border:1px solid #b9974f; border-radius:8px; padding:16px 16px 14px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,0.4), 0 3px 8px rgba(0,0,0,0.15);
+}
+.trophy-card h4{margin:0 0 4px; font-size:19px; color:var(--trophy-dark);}
+.trophy-card .plaque{
+  font-family:'Special Elite', monospace; font-size:10.5px; letter-spacing:0.03em;
+  color:#5a4426; background:#d8c48c; padding:3px 8px; border-radius:3px; display:inline-block; margin-top:8px;
+}
+.trophy-card.faded .plaque{opacity:0.35; filter:blur(0.3px);}
+.trophy-card.faded p{color:#7c6a4a;}
+
+/* ---------- SECCIÓN HOGWARTS ---------- */
+#hogwarts .doc-head{border-bottom-color:var(--bordo);}
+
+/* ---------- BITACORAS ---------- */
+#bitacoras{background-image:none;}
+#bitacoras .doc-head{border-bottom-color:#4a3826;}
+.index-entry{
+  border-bottom:1px dashed #b9a97c; padding:14px 0; display:flex; gap:16px; align-items:baseline; flex-wrap:wrap;
+}
+.index-entry .date{font-family:'Special Elite',monospace; font-size:12px; color:var(--bordo-deep); min-width:90px;}
+.index-entry .mode{font-family:'Caveat',cursive; font-size:17px; color:var(--ink-soft);}
+
+footer{
+  text-align:center; color:#8a7a5a; font-family:'Special Elite',monospace;
+  font-size:10.5px; letter-spacing:0.08em; margin-top:24px; opacity:0.7;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <h1>Oliver Wood</h1>
+  </div>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="cuarto">Su Cuarto</button>
+    <button class="tab-btn" data-tab="mungo">San Mungo</button>
+    <button class="tab-btn" data-tab="hogwarts">Legajo Hogwarts</button>
+    <button class="tab-btn" data-tab="trofeos">Sala de Trofeos</button>
+    <a class="tab-btn" data-tab="ministerio" href="https://olivernodescansa.github.io/sesiones-a-shacklebolt/" target="_blank" rel="noopener">Legajo Ministerio ↗</a>
+    <a class="tab-btn" data-tab="bitacoras" href="https://olivernodescansa.github.io/bitacora-wood-no-descansa/" target="_blank" rel="noopener">Bitácoras ↗</a>
+  </nav>
+
+  <div class="panel">
+
+    <!-- =================== SU CUARTO =================== -->
+    <section class="section active" id="cuarto">
+      <div class="doc-head">
+        <h2>Su Cuarto</h2>
+        <div class="meta">Casa muggle de Evelyn Wood<br>Habitación de O. Wood — piso superior</div>
+      </div>
+      <p class="note">Tres cajones. Ninguno cerrado con llave, pero hay uno que nadie mira dos veces.</p>
+
+      <h3 class="block-title">Perfil Personal</h3>
+      <div class="grid-2">
+        <div class="card">
+          <table>
+            <tr><td><strong>Nombre completo</strong></td><td>Oliver Wood</td></tr>
+            <tr><td><strong>Nacimiento</strong></td><td>14 de noviembre · 18 años</td></tr>
+            <tr><td><strong>Casa</strong></td><td>Gryffindor</td></tr>
+            <tr><td><strong>Sangre</strong></td><td>Mestizo (madre muggle, padre mago)</td></tr>
+            <tr><td><strong>Varita</strong></td><td>Roble, 11½", robusta/rígida, núcleo de fibra de corazón de dragón</td></tr>
+            <tr><td><strong>Patronus</strong></td><td>Un león — invocado desde el recuerdo de volar con su tío</td></tr>
+            <tr><td><strong>Boggart</strong></td><td>Antes: acromántulas. Ahora: un cuarto sin ventanas, sin espacio para estirar los brazos</td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <table>
+            <tr><td><strong>Espejo de Erised</strong></td><td>Su familia entera, sana. Al fondo, él enseñándole Quidditch a un sobrino</td></tr>
+            <tr><td><strong>Amortentia</strong></td><td>Césped mojado, chocolate, café, cuero, cera de guitarra, mar</td></tr>
+            <tr><td><strong>Situación económica</strong></td><td>Clase media — se las arregla</td></tr>
+            <tr><td><strong>Mascotas</strong></td><td>Yimmy, Yam y Brownie (compartidos con Kaia); Noodle, un Occamy</td></tr>
+            <tr><td><strong>Apodos</strong></td><td>"Ollie" (pocos privilegiados). "Muffin" (solo Evelyn, para su vergüenza eterna)</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <hr class="tear">
+
+      <h3 class="block-title">Perfil Académico</h3>
+      <p><span class="tag">T.I.M.O.S — 5to año</span></p>
+      <table>
+        <tr><th>Materia</th><th>Calificación</th><th>Observación docente</th></tr>
+        <tr><td>Encantamientos</td><td>E — Extraordinario</td><td>"El único de la promoción que hace parecer fácil el encantamiento convocador compuesto." — Filius Flitwick</td></tr>
+        <tr><td>Astronomía</td><td>E — Extraordinario</td><td>Evaluado por profesor sustituto. <span class="handwriting">(nota al margen: "se abstiene de calificar a familiares directos")</span></td></tr>
+        <tr><td>Transformaciones</td><td>A — Aceptable</td><td>"Disperso, pero nunca indisciplinado." — M. McGonagall</td></tr>
+        <tr><td>Defensa Contra las Artes Oscuras</td><td>A — Aceptable</td><td>Reflejos por encima del promedio; teoría floja</td></tr>
+        <tr><td>Herbología</td><td>A — Aceptable</td><td>—</td></tr>
+        <tr><td>Historia de la Magia</td><td>P — Pobre</td><td>Se duerme en el fondo, con la excusa de "entrenamiento a la mañana"</td></tr>
+        <tr><td>Cuidado de Criaturas Mágicas</td><td>A — Aceptable</td><td>—</td></tr>
+      </table>
+      <p><span class="tag gold">Actividad extracurricular registrada</span></p>
+      <table>
+        <tr><th>Actividad</th><th>Frecuencia</th><th>Supervisor</th></tr>
+        <tr><td>Refuerzo académico privado</td><td>Semanal, desde los 7 años — sin interrupciones</td><td>A. Shacklebolt, Depto. de Seguridad Mágica (externo)</td></tr>
+      </table>
+      <p class="note">Nadie en la secretaría del colegio anotó nunca qué se enseña en ese "refuerzo". Nadie preguntó.</p>
+
+      <hr class="tear">
+
+      <h3 class="block-title">Perfil Deportivo</h3>
+      <div class="grid-2">
+        <div class="card">
+          <table>
+            <tr><td><strong>Posición</strong></td><td>Guardián</td></tr>
+            <tr><td><strong>Capitanías</strong></td><td>5to y 6to año</td></tr>
+            <tr><td><strong>Copas ganadas</strong></td><td>Copa de Quidditch, 5to y 6to año (bajo su capitanía)</td></tr>
+            <tr><td><strong>Jugada de firma</strong></td><td>Double Eight Loop</td></tr>
+            <tr><td><strong>Especialidad</strong></td><td>Defensa táctica</td></tr>
+            <tr><td><strong>% de atajadas (promedio 6to año)</strong></td><td>82%</td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <p style="margin-top:0"><strong style="font-family:'Special Elite',monospace; font-size:11px; letter-spacing:0.05em; color:var(--bordo-deep);">HISTORIAL DE LESIONES</strong></p>
+          <table>
+            <tr><td>1er año</td><td>Bludger en la cabeza, min. 2 de su primer partido. Ingreso a enfermería, alta a la semana.</td></tr>
+            <tr><td>3er año</td><td>Fractura de muñeca izquierda, entrenamiento.</td></tr>
+            <tr><td>6to año</td><td>Contusiones múltiples, madrugones bajo lluvia sostenida.</td></tr>
+            <tr><td>Reciente</td><td>"Incidente en excursión con el Profesor Black — contusión menor, sin secuelas."</td></tr>
+          </table>
+          <p class="note" style="margin-bottom:0">Esa última línea es la única del legajo deportivo que no coincide con nada de lo que pasó.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================== SAN MUNGO =================== -->
+    <section class="section" id="mungo">
+      <div class="doc-head">
+        <h2>Hospital San Mungo</h2>
+        <div class="meta">Ala de Traumatismos por Hechizos<br>Sector de Archivo de Pacientes<br><span class="stamp">USO CLÍNICO</span></div>
+      </div>
+
+      <h3 class="block-title">Historial de Ingresos — O. Wood</h3>
+      <table>
+        <tr><th>Fecha aprox.</th><th>Motivo</th><th>Resolución</th></tr>
+        <tr><td>Edad 6</td><td>Fiebre mágica estacional</td><td>Control de rutina, sin novedad</td></tr>
+        <tr><td>Edad 7</td><td class="redact" title="[registro sellado]">Consulta de urgencia, sin detalle en archivo público</td><td>Derivado a seguimiento privado — Depto. de Seguridad Mágica</td></tr>
+        <tr><td>Edad 11</td><td>Contusión craneal (Bludger, primer partido de Quidditch)</td><td>Alta tras siete días de observación</td></tr>
+        <tr><td>Edad 12</td><td>Fractura de brazo derecho (entrenamiento)</td><td>Reparación estándar, sin secuelas</td></tr>
+        <tr><td>Edad 13–17</td><td colspan="2"><em>Sin registros de controles pediátricos de rutina en este ala. Historial derivado íntegramente a folios ministeriales (ver Legajo del Ministerio).</em></td></tr>
+        <tr><td>Reciente</td><td>Ingreso de urgencia — causa oficial: "caída accidental"</td><td>Estado al ingreso: coma prolongado. Egreso: alta voluntaria, <strong>contra recomendación médica</strong></td></tr>
+      </table>
+      <p class="note">Entre los 7 y los 17 años, un guardián de Quidditch que se rompió una muñeca y se llevó tres Bludgers en la cabeza no generó una sola consulta pediátrica de rutina. Alguien decidió que ese seguimiento pasara por otro lado.</p>
+
+      <hr class="tear">
+
+      <h3 class="block-title">Anexo Clínico I — Legeremancia: contraindicaciones documentadas</h3>
+      <p style="font-size:14px; color:var(--ink-soft)">Material de referencia general del Ala de Traumatismos por Hechizos. No corresponde a un paciente en particular.</p>
+      <div class="clinical">
+        <span class="case-label">Ficha técnica — uso hospitalario interno</span>
+        La Legeremancia forzada, aun en su forma más sutil, deja rastro mensurable en el mindscape del receptor. En intrusiones violentas o repetidas se documentan con frecuencia: desorientación post-episodio, cefaleas de intensidad variable, dificultad para distinguir recuerdo propio de recuerdo intruso, y embotamiento emocional sostenido en el tiempo.
+        <br><br>
+        El riesgo se multiplica en sujetos menores de edad: una mente en desarrollo carece de la arquitectura necesaria para segmentar con claridad lo propio de lo ajeno, lo que deriva en secuelas más profundas y de curso más largo que en un adulto. Los pocos casos de intrusión infantil registrados por este servicio comparten un patrón: el paciente no recuerda el episodio como una narrativa coherente, sino como fragmentos sensoriales sueltos, reactivados años después por estímulos aparentemente triviales.
+      </div>
+
+      <h3 class="block-title">Anexo Clínico II — Oclumancia: cuadro de riesgo por entrenamiento temprano</h3>
+      <div class="clinical">
+        <span class="case-label">Circular para Sanadores — formación continua</span>
+        Se recuerda al personal que la Oclumancia iniciada en la infancia, particularmente cuando responde a un evento traumático puntual y no a una enseñanza planificada, tiende a fijar mecanismos de bloqueo y disociación que persisten mucho después de que la amenaza original desapareció.
+        <br><br>
+        Cuadro clínico esperable en estos casos: aplanamiento emocional progresivo, cinismo como distancia protectora, irritabilidad reprimida que se manifiesta en episodios breves y desproporcionados, insomnio de causa no orgánica. Contraindicaciones mayores: despersonalización, migraña crónica de esfuerzo mental, y en técnicas defensivas avanzadas ("espejos"), riesgo de confusión entre recuerdo propio e ilusión propia proyectada como defensa.
+        <br><br>
+        Se insiste: esta disciplina no está indicada en menores salvo circunstancia excepcional, y en esos casos requiere seguimiento activo — no archivo y olvido.
+      </div>
+
+      <hr class="tear">
+
+      <h3 class="block-title">Nota de seguimiento — folio reciente</h3>
+      <div class="card">
+        <p><span class="tag warn">Consulta posterior al alta</span></p>
+        <p style="font-size:15px">Paciente concurre a control ambulatorio semanas después del alta voluntaria. Refiere "estar bien" de forma reiterada y con inflexión ensayada. Se observan lapsos breves de desconexión durante la entrevista — mirada fija, demora anómala en responder preguntas simples, corrección espontánea del tipo "perdón, ¿qué me preguntaste". El paciente minimiza estos episodios al ser consultado directamente y desvía la conversación hacia temas deportivos con fluidez notable.</p>
+        <p style="font-size:15px; margin-bottom:0">No es posible profundizar: el paciente cancela el control de seguimiento programado y no reprograma. Queda constancia para folio.</p>
+      </div>
+    </section>
+
+    <!-- =================== HOGWARTS =================== -->
+    <section class="section" id="hogwarts">
+      <div class="doc-head">
+        <h2>Legajo Estudiantil</h2>
+        <div class="meta">Oficina de la Subdirección<br>Registro de Conducta — Casa Gryffindor</div>
+      </div>
+
+      <h3 class="block-title">Sanciones Registradas</h3>
+      <table>
+        <tr><th>Año</th><th>Motivo</th><th>Sanción</th><th>Funcionario</th></tr>
+        <tr><td>2do</td><td>Vuelo fuera de horario (entrenamiento no autorizado, madrugada)</td><td>Amonestación verbal</td><td>Madam Hooch</td></tr>
+        <tr><td>3ro</td><td>Pelea en vestuario visitante tras acusación de trampa</td><td>Suspensión de un entrenamiento</td><td>M. McGonagall</td></tr>
+        <tr><td>4to</td><td>Toque de queda — encontrado en el campo a las 2 AM "revisando el pasto"</td><td>Amonestación escrita</td><td>Argus Filch</td></tr>
+        <tr><td>5to</td><td>Uso no autorizado del campo antes del horario asignado a otra casa</td><td>Advertencia al capitán</td><td>Madam Hooch</td></tr>
+        <tr><td>6to</td><td>Reserva compulsiva del campo — quejas de otros equipos por monopolio de horarios</td><td>Reglamentación de turnos impuesta por dirección</td><td>Consejo de Casas</td></tr>
+        <tr><td>7mo</td><td>Lluvia de folletos autorreplicantes en el Gran Comedor, dos días de duración</td><td>Trabajo comunitario (limpieza asistida por magia)</td><td>Filius Flitwick</td></tr>
+        <tr><td>7mo</td><td>Intentar pegarle un folleto del torneo en la cara a un hombre lobo durante una excursión autorizada</td><td>Limpiar los baños</td><td>Severus Snape, Director</td></tr>
+        <tr><td>7mo</td><td>Interrumpir reiteradamente el dictado de clase (temas: horarios de cancha, inscripciones al torneo)</td><td>Limpiar los baños</td><td>Severus Snape, Director</td></tr>
+        <tr><td>7mo</td><td>Generar una lluvia de folletos sin autorización previa del cuerpo docente</td><td>Limpiar los baños</td><td>Severus Snape, Director</td></tr>
+        <tr><td>7mo</td><td>Fumar mandrágoras en los terrenos del castillo</td><td>Limpiar los baños</td><td>Severus Snape, Director</td></tr>
+        <tr style="background:rgba(139,44,44,0.08)"><td><strong>7mo</strong></td><td><strong>"Comportamiento errático — episodio disociativo breve" durante clase</strong></td><td>Derivado a enfermería. Resuelto sin informe adicional</td><td>Sin firma legible</td></tr>
+      </table>
+      <p class="note">Cuatro sanciones distintas y el mismo castigo cada vez — para el Director, evidentemente, todos los baños de Hogwarts necesitaban una mano.</p>
+      <p class="note">La última entrada de la tabla nunca vuelve a mencionarse en ningún otro documento del colegio. No hay informe de seguimiento, no hay nota de cierre, no hay firma que se pueda leer con claridad. Simplemente deja de existir después de esa línea.</p>
+    </section>
+
+    <!-- =================== TROFEOS =================== -->
+    <section class="section" id="trofeos">
+      <div class="doc-head">
+        <h2>Sala de Trofeos</h2>
+        <div class="meta">Vitrina Este — Casa Gryffindor<br>Inventario de temporada</div>
+      </div>
+      <p class="note">Bronce, plata, y una placa que nadie termina de leer.</p>
+
+      <div class="trophy-shelf">
+        <div class="trophy-card">
+          <h4>Copa de Quidditch</h4>
+          <p style="margin:0; font-size:14.5px">5to año, bajo su capitanía.</p>
+          <span class="plaque">GRYFFINDOR · CAPITÁN: O. WOOD</span>
+        </div>
+        <div class="trophy-card">
+          <h4>Copa de Quidditch</h4>
+          <p style="margin:0; font-size:14.5px">6to año, segunda consecutiva.</p>
+          <span class="plaque">GRYFFINDOR · CAPITÁN: O. WOOD</span>
+        </div>
+        <div class="trophy-card">
+          <h4>Guardián del Año</h4>
+          <p style="margin:0; font-size:14.5px">Votado por capitanes rivales, 6to año.</p>
+          <span class="plaque">MEJOR PORCENTAJE DE ATAJADAS</span>
+        </div>
+        <div class="trophy-card">
+          <h4>Copa de Casas</h4>
+          <p style="margin:0; font-size:14.5px">Aporte deportivo, 5to año. Trofeo compartido con el equipo completo.</p>
+          <span class="plaque">GRYFFINDOR</span>
+        </div>
+        <div class="trophy-card">
+          <h4>Récord de Atajadas Consecutivas</h4>
+          <p style="margin:0; font-size:14.5px">Aún vigente al momento de este inventario.</p>
+          <span class="plaque">TEMPORADA 6TO AÑO</span>
+        </div>
+        <div class="trophy-card faded">
+          <h4>Mención al Espíritu Deportivo</h4>
+          <p style="margin:0; font-size:14.5px">Entregado por votación de todas las casas. Placa deslustrada — el nombre grabado es el menos legible de toda la vitrina.</p>
+          <span class="plaque">O. W???D</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================== MINISTERIO =================== -->
+    <section class="section" id="ministerio">
+      <div class="doc-head">
+        <h2>Legajo del Ministerio</h2>
+        <div class="meta">Depto. de Seguridad Mágica<br>Sesiones de seguimiento — folios A. Shacklebolt<br><span class="stamp" style="border-color:var(--ministry); color:var(--ministry)">RESERVADO</span></div>
+      </div>
+
+      <div class="folio">
+        <p><span class="status ok"></span><strong>Folio 01 — Evaluación inicial</strong> · edad 7</p>
+        <p style="margin:0 0 0 15px; font-size:15px">Capa pública: "Menor examinado tras episodio traumático. Se recomienda iniciar disciplina de Oclumancia con seguimiento del Departamento."</p>
+        <div class="nota-tecnica">
+          <span class="label">Nota técnica — acceso restringido</span>
+          Examen reveló fragmentos sueltos: nombres, ubicaciones, referencias a objetos rastreados por el tío del menor. Prioridad: contención del riesgo de fuga de información, no bienestar del paciente.
+        </div>
+      </div>
+
+      <div class="folio">
+        <p><span class="status ok"></span><strong>Folio 04 — Control de rutina</strong> · edad 11</p>
+        <p style="margin:0 0 0 15px; font-size:15px">Capa pública: "Progreso favorable. Colaboración adecuada del menor."</p>
+        <div class="nota-tecnica">
+          <span class="label">Nota técnica</span>
+          Espejos rudimentarios ya presentes a esta edad — desarrollo anómalo para el nivel de entrenamiento formal recibido. Se sugiere no informar a la familia el detalle técnico.
+        </div>
+      </div>
+
+      <div class="folio">
+        <p><span class="status review"></span><strong>Folio 09 — Reevaluación</strong> · edad 15</p>
+        <p style="margin:0 0 0 15px; font-size:15px">Capa pública: "Sujeto estable. No se detectan riesgos activos."</p>
+        <div class="nota-tecnica">
+          <span class="label">Nota técnica</span>
+          Se detecta rigidez defensiva marcada frente a estímulos no hostiles (cercanía emocional, estrés cotidiano). No se interviene: la rigidez sirve, por ahora, a los mismos fines de contención que motivaron el entrenamiento original.
+        </div>
+      </div>
+
+      <div class="folio missing">
+        <p><span class="status missing"></span><strong>Folio 13 — [FALTANTE DEL LEGAJO]</strong></p>
+        <p style="margin:0 0 0 15px; font-size:15px">Corresponde a las fechas del incidente en la Mansión Malfoy. No hay copia en archivo central ni en archivo personal de A. Shacklebolt. Solicitud de duplicado: sin respuesta.</p>
+      </div>
+
+      <div class="folio">
+        <p><span class="status review"></span><strong>Folio 14 — Sesión post-crisis</strong> · reciente</p>
+        <p style="margin:0 0 0 15px; font-size:15px">Capa pública: "Sujeto recupera fragmentos de memoria de forma espontánea. Se recomienda no forzar el proceso."</p>
+        <div class="nota-tecnica">
+          <span class="label">Nota técnica</span>
+          <span class="redact" title="[fragmento removido]">████████ Núcleos de Sangre ████████</span> — la recuperación de memoria del sujeto representa un riesgo directo para la continuidad del programa. Evaluar contención.
+        </div>
+      </div>
+    </section>
+
+    <!-- =================== BITÁCORAS =================== -->
+    <section class="section" id="bitacoras">
+      <div class="doc-head">
+        <h2>Bitácoras Personales</h2>
+        <div class="meta">Cuarto de O. Wood<br>Cajón inferior, sin llave</div>
+      </div>
+      <p class="note">No es un legajo. Es lo único de esta carpeta que Oliver escribió sabiendo que nadie más lo iba a leer.</p>
+
+      <h3 class="block-title">Índice de entradas — proyecto "bitácora"</h3>
+      <div class="index-entry">
+        <span class="date">29 jul.</span>
+        <span class="mode">modo bruma</span>
+        <span>El descubrimiento de que el libro sacado de la Mansión Nott ya no está donde lo dejó.</span>
+      </div>
+      <div class="index-entry">
+        <span class="date">10 ago.</span>
+        <span class="mode">modo vudú</span>
+        <span>Zahir lo despierta en la celda. El anillo. La huida al lago.</span>
+      </div>
+      <div class="index-entry">
+        <span class="date">post-fuga</span>
+        <span class="mode">modo mixto — sugerido</span>
+        <span>Fragmentos de memoria recuperados de Aurelio, entremezclados con la culpa por Zahir varado. Un tercer modo visual, entre la bruma y el vudú, podría marcar este estado intermedio: ni posesión ni contacto pleno, memoria que vuelve de a pedazos.</span>
+      </div>
+      <div class="index-entry" style="border-bottom:none;">
+        <span class="date">sin fecha</span>
+        <span class="mode">§§1§§</span>
+        <span>Una entrada redactada, título ilegible. Aparece mencionada en los folios del Ministerio pero nunca en la bitácora misma — quizás porque nunca la escribió, o quizás porque la arrancó.</span>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>expediente compilado con fines de referencia interna — copa de hogwarts · verano 2026</footer>
+</div>
+
+<script>
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+    document.querySelector('.panel').scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+</script>
+</body>
+</html>
