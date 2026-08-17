@@ -728,86 +728,6 @@ footer{
       </div>
     </section>
 
-    <!-- =================== MINISTERIO =================== -->
-    <section class="section" id="ministerio">
-      <div class="doc-head">
-        <h2>Legajo del Ministerio</h2>
-        <div class="meta">Depto. de Seguridad Mágica<br>Sesiones de seguimiento — folios A. Shacklebolt<br><span class="stamp" style="border-color:var(--ministry); color:var(--ministry)">RESERVADO</span></div>
-      </div>
-
-      <div class="folio">
-        <p><span class="status ok"></span><strong>Folio 01 — Evaluación inicial</strong> · edad 7</p>
-        <p style="margin:0 0 0 15px; font-size:15px">Capa pública: "Menor examinado tras episodio traumático. Se recomienda iniciar disciplina de Oclumancia con seguimiento del Departamento."</p>
-        <div class="nota-tecnica">
-          <span class="label">Nota técnica — acceso restringido</span>
-          Examen reveló fragmentos sueltos: nombres, ubicaciones, referencias a objetos rastreados por el tío del menor. Prioridad: contención del riesgo de fuga de información, no bienestar del paciente.
-        </div>
-      </div>
-
-      <div class="folio">
-        <p><span class="status ok"></span><strong>Folio 04 — Control de rutina</strong> · edad 11</p>
-        <p style="margin:0 0 0 15px; font-size:15px">Capa pública: "Progreso favorable. Colaboración adecuada del menor."</p>
-        <div class="nota-tecnica">
-          <span class="label">Nota técnica</span>
-          Espejos rudimentarios ya presentes a esta edad — desarrollo anómalo para el nivel de entrenamiento formal recibido. Se sugiere no informar a la familia el detalle técnico.
-        </div>
-      </div>
-
-      <div class="folio">
-        <p><span class="status review"></span><strong>Folio 09 — Reevaluación</strong> · edad 15</p>
-        <p style="margin:0 0 0 15px; font-size:15px">Capa pública: "Sujeto estable. No se detectan riesgos activos."</p>
-        <div class="nota-tecnica">
-          <span class="label">Nota técnica</span>
-          Se detecta rigidez defensiva marcada frente a estímulos no hostiles (cercanía emocional, estrés cotidiano). No se interviene: la rigidez sirve, por ahora, a los mismos fines de contención que motivaron el entrenamiento original.
-        </div>
-      </div>
-
-      <div class="folio missing">
-        <p><span class="status missing"></span><strong>Folio 13 — [FALTANTE DEL LEGAJO]</strong></p>
-        <p style="margin:0 0 0 15px; font-size:15px">Corresponde a las fechas del incidente en la Mansión Malfoy. No hay copia en archivo central ni en archivo personal de A. Shacklebolt. Solicitud de duplicado: sin respuesta.</p>
-      </div>
-
-      <div class="folio">
-        <p><span class="status review"></span><strong>Folio 14 — Sesión post-crisis</strong> · reciente</p>
-        <p style="margin:0 0 0 15px; font-size:15px">Capa pública: "Sujeto recupera fragmentos de memoria de forma espontánea. Se recomienda no forzar el proceso."</p>
-        <div class="nota-tecnica">
-          <span class="label">Nota técnica</span>
-          <span class="redact" title="[fragmento removido]">████████ Núcleos de Sangre ████████</span> — la recuperación de memoria del sujeto representa un riesgo directo para la continuidad del programa. Evaluar contención.
-        </div>
-      </div>
-    </section>
-
-    <!-- =================== BITÁCORAS =================== -->
-    <section class="section" id="bitacoras">
-      <div class="doc-head">
-        <h2>Bitácoras Personales</h2>
-        <div class="meta">Cuarto de O. Wood<br>Cajón inferior, sin llave</div>
-      </div>
-      <p class="note">No es un legajo. Es lo único de esta carpeta que Oliver escribió sabiendo que nadie más lo iba a leer.</p>
-
-      <h3 class="block-title">Índice de entradas — proyecto "bitácora"</h3>
-      <div class="index-entry">
-        <span class="date">29 jul.</span>
-        <span class="mode">modo bruma</span>
-        <span>El descubrimiento de que el libro sacado de la Mansión Nott ya no está donde lo dejó.</span>
-      </div>
-      <div class="index-entry">
-        <span class="date">10 ago.</span>
-        <span class="mode">modo vudú</span>
-        <span>Zahir lo despierta en la celda. El anillo. La huida al lago.</span>
-      </div>
-      <div class="index-entry">
-        <span class="date">post-fuga</span>
-        <span class="mode">modo mixto — sugerido</span>
-        <span>Fragmentos de memoria recuperados de Aurelio, entremezclados con la culpa por Zahir varado. Un tercer modo visual, entre la bruma y el vudú, podría marcar este estado intermedio: ni posesión ni contacto pleno, memoria que vuelve de a pedazos.</span>
-      </div>
-      <div class="index-entry" style="border-bottom:none;">
-        <span class="date">sin fecha</span>
-        <span class="mode">§§1§§</span>
-        <span>Una entrada redactada, título ilegible. Aparece mencionada en los folios del Ministerio pero nunca en la bitácora misma — quizás porque nunca la escribió, o quizás porque la arrancó.</span>
-      </div>
-    </section>
-
   </div>
 
   <footer>expediente compilado con fines de referencia interna — copa de hogwarts · verano 2026</footer>
@@ -816,10 +736,12 @@ footer{
 <script>
 document.querySelectorAll('.tab-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
+    const target = document.getElementById(btn.dataset.tab);
+    if(!target) return; // pestañas externas (legajo ministerio, bitácoras) navegan directo, sin panel interno
     document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
     document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
     btn.classList.add('active');
-    document.getElementById(btn.dataset.tab).classList.add('active');
+    target.classList.add('active');
     document.querySelector('.panel').scrollIntoView({behavior:'smooth', block:'start'});
   });
 });
